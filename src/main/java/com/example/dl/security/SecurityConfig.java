@@ -46,21 +46,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.cors().and().csrf().and()
-				.headers()
-				.frameOptions().sameOrigin().and()
+		http.cors().and().csrf().disable()
 				//tells spring security to not create session automatically
 				.exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 				.authorizeRequests()
 				.antMatchers("/auth/**").permitAll()
 				.antMatchers("/admin/**").hasRole("ADMIN")
-				.antMatchers( "/topic/**", "/app/**" ).permitAll()
-				.antMatchers(
-						"/secured/**/**",
-						"/secured/success",
-						"/secured/socket",
-						"/secured/success").authenticated()
+				.antMatchers( "/topic/**", "/app/**" , "/socket").permitAll()
 				.anyRequest().authenticated();
 
 

@@ -12,7 +12,7 @@ public class SocketSecurityConfig
     protected void configureInbound(
             MessageSecurityMetadataSourceRegistry messages) {
         messages
-                .simpDestMatchers("/secured/**").authenticated()
+                .simpDestMatchers("/socket").authenticated()
                 .anyMessage().authenticated();
     }
 
