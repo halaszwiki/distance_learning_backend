@@ -19,7 +19,7 @@ import com.example.dl.service.CourseService;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/course")
+@RequestMapping("/api/course")
 public class CourseController {
 	
 	@Autowired

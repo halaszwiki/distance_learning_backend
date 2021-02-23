@@ -12,7 +12,7 @@ import com.example.dl.repository.UserRepository;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("/api/admin")
 public class AdminController {
 	
 	@Autowired

@@ -18,7 +18,7 @@ import javax.swing.text.html.Option;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 public class UserController {
 
 	@Autowired
