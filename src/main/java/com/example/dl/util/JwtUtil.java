@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.security.oauth2.jwt.Jwt;
 
 import java.util.Date;
 @Service
@@ -25,6 +26,10 @@ public class JwtUtil {
     //takes the token and returns the username
     public String getUserNameFromJwtToken(String token) {
         return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
+    }
+
+    public Jwt getJwt(String token){
+        return Jwt.withTokenValue("token").header("typ", "JWT").claim("", "").build();
     }
 
     //generate a jwt to the user

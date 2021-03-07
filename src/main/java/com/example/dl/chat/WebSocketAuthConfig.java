@@ -16,7 +16,6 @@ import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.messaging.support.MessageHeaderAccessor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
@@ -31,7 +30,7 @@ public class WebSocketAuthConfig implements WebSocketMessageBrokerConfigurer {
     private static final Logger logger = LoggerFactory.getLogger(WebSocketAuthConfig.class);
 
     @Autowired
-    private JwtDecoder jwtDecoder;
+    private JwtUtil jwtUtil;
 
 
     @Override
@@ -46,7 +45,7 @@ public class WebSocketAuthConfig implements WebSocketMessageBrokerConfigurer {
 
                     String accessToken = authorization.get(0).split(" ")[1];
 
-                    Jwt jwt = jwtDecoder.decode(accessToken);
+                    Jwt jwt = jwtUtil.getJwt(accessToken);
                     JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
                     Authentication authentication = converter.convert(jwt);
                     accessor.setUser(authentication);
