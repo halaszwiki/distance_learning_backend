@@ -6,12 +6,12 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
 @Controller
-public class WebSocketController {
+public class ChatController {
 
     private final SimpMessagingTemplate template;
 
     @Autowired
-    WebSocketController(SimpMessagingTemplate template){
+    ChatController(SimpMessagingTemplate template){
         this.template = template;
     }
 
