@@ -1,8 +1,18 @@
 package com.example.dl.model;
 
 public class ChatMessage {
-    String username;
-    String message;
+    
+    private String username;
+    private String message;
+    
+    public ChatMessage() {
+    }
+
+    public ChatMessage(String username, String message) {
+        super();
+        this.username = username;
+        this.message = message;
+    }
 
     public String getUsername() {
         return username;

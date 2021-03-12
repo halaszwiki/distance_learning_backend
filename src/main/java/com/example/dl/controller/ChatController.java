@@ -18,8 +18,8 @@ public class ChatController {
     }
 
     @MessageMapping("/send/message")
-    public void sendMessage(ChatMessage chatMessage){
-        chatMessage.setUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+    public void sendMessage(String message){
+        ChatMessage chatMessage = new ChatMessage(SecurityContextHolder.getContext().getAuthentication().getName(), message);
         System.out.println("username: " + chatMessage.getUsername() + " message: "  + chatMessage.getMessage());
         this.template.convertAndSend("/message",  chatMessage);
     }
