@@ -1,6 +1,6 @@
 package com.example.dl.model;
 
 public enum RoleEnum {
-    ROLE_USER,
-    ROLE_ADMIN
+    ROLE_STUDENT,
+    ROLE_TEACHER
 }

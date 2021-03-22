@@ -25,6 +25,10 @@ public class Course {
 	String name;
 	int semester;
 	String degreeLevel;
+	String program;
+	String[] days;
+	String start;
+	String end;
 	@ManyToMany(mappedBy = "courses")
 	List<User> users = new ArrayList<>();
 }

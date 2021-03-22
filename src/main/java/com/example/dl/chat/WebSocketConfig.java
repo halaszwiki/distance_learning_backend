@@ -23,6 +23,7 @@ import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBr
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
+import java.nio.file.AccessDeniedException;
 import java.util.List;
 
 @Configuration
@@ -55,13 +56,13 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
             @Override
             public Message<?> preSend(Message<?> message, MessageChannel channel) {
                 StompHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
-                if(StompCommand.CONNECT.equals(accessor.getCommand())){
+                if (StompCommand.CONNECT.equals(accessor.getCommand())) {
                     List<String> authorization = accessor.getNativeHeader("X-Authorization");
                     logger.debug("X-Authorization: {}", authorization);
-
+                try {
                     String accessToken = authorization.get(0).split(" ")[1];
 
-                    if(jwtUtil.validateJwtToken(accessToken)){
+                    if (jwtUtil.validateJwtToken(accessToken)) {
                         String username = jwtUtil.getUserNameFromJwtToken(accessToken);
                         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
                         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
@@ -69,9 +70,13 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                         SecurityContextHolder.getContext().setAuthentication(authentication);
                         accessor.setUser(authentication);
                     }
+                    } catch(Exception e){
+                        logger.error("Invalid token, access denied:", e);
                     }
-                return message;
                 }
+            return message;
+                }
+
         });
     }
 }
