@@ -23,7 +23,7 @@ import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBr
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
-import java.nio.file.AccessDeniedException;
+import java.io.Console;
 import java.util.List;
 
 @Configuration
@@ -60,7 +60,11 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                     List<String> authorization = accessor.getNativeHeader("X-Authorization");
                     logger.debug("X-Authorization: {}", authorization);
                 try {
+                    String bearer = authorization.get(0).split(" ")[0];
                     String accessToken = authorization.get(0).split(" ")[1];
+
+                    System.out.println("Bearer: " + bearer);
+                    System.out.println("token: " + accessToken);
 
                     if (jwtUtil.validateJwtToken(accessToken)) {
                         String username = jwtUtil.getUserNameFromJwtToken(accessToken);
