@@ -18,7 +18,7 @@ import lombok.Setter;
 @Getter
 @Table(name="courses")
 public class Course {
-	
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
@@ -27,9 +27,12 @@ public class Course {
 	String degreeLevel;
 	String program;
 	String[] days;
-	String start;
-	String end;
+	int start;
+	int end;
 	@ManyToMany(mappedBy = "courses")
 	List<User> users = new ArrayList<>();
+
+	public int getStart(){return start;}
+	public int getEnd(){return end;}
 }
 

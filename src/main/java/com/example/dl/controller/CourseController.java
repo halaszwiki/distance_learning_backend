@@ -2,6 +2,7 @@ package com.example.dl.controller;
 
 import java.util.List;
 
+import com.example.dl.payload.MessageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,9 +33,14 @@ public class CourseController {
 	}
 	
 	@PostMapping("/list")
-	public ResponseEntity<Course> save(@RequestBody Course subject){
+	public ResponseEntity<?> save(@RequestBody Course subject){
 		Course saved = courseService.save(subject);
-		return new ResponseEntity<Course>(saved, HttpStatus.OK);
+		if(saved.getStart() < saved.getEnd()) {
+			return new ResponseEntity<Course>(saved, HttpStatus.OK);
+		}
+		else{
+			return ResponseEntity.badRequest().body(new MessageResponse("Error: Course ends earlier than starts!"));
+		}
 	}
 	
 	@GetMapping("/{id}")
