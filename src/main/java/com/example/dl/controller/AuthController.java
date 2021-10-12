@@ -103,7 +103,7 @@ public class AuthController {
                     roles.add(studentRole);
                 }
 
-
+        user.getCourses().add(null);
         user.setRoles(roles);
         userService.save(user);
 

@@ -2,7 +2,10 @@ package com.example.dl.controller;
 
 import java.util.List;
 
+import com.example.dl.model.User;
+import com.example.dl.payload.CourseToUserRequest;
 import com.example.dl.payload.MessageResponse;
+import com.example.dl.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +28,9 @@ public class CourseController {
 	
 	@Autowired
 	CourseService courseService;
+	@Autowired
+	UserService userService;
+
 	
 	@GetMapping("/list")
 	public ResponseEntity<List<Course>> getAllSubject(){
@@ -55,4 +61,16 @@ public class CourseController {
 		return new ResponseEntity<String>("Deleted successfully!", HttpStatus.OK);
 	}
 
+	@PostMapping("/addCourseToUser")
+	public ResponseEntity<?> addCourseToUser(@RequestBody CourseToUserRequest courseToUserRequest){
+
+
+		User user = userService.findById(courseToUserRequest.getUserId());
+		Course course = courseToUserRequest.getCourse();
+		user.getCourses().add(course);
+
+		userService.save(user);
+
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
 }

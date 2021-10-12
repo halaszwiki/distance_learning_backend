@@ -7,6 +7,8 @@ import java.util.Set;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -31,8 +33,9 @@ public class User {
 			joinColumns = @JoinColumn(name = "user_id"),
 			inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private List<Role> roles = new ArrayList<Role>();
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "taken_courses", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "course_id"))
+	@JsonIgnoreProperties("users")
 	private List<Course> courses = new ArrayList<>();
 
 	public User(User user) {
@@ -90,4 +93,12 @@ public class User {
 	}
 
     public void setRoles(List<Role> roles) { this.roles = roles; }
+
+    public void addCourse(Course course){
+		courses.add(course);
+	}
+
+	public List<Course> getCourses(){
+		return this.courses;
+	}
 }
