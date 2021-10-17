@@ -1,5 +1,7 @@
 package com.example.dl.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -8,14 +10,17 @@ public class Comment {
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private int id;
+    private Long id;
     private String username;
     private String comment;
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "course_id", nullable = false)
     private Course course;
 
-    public Comment(int id, String username, String comment, Course course) {
+    public Comment(){}
+
+    public Comment(Long id, String username, String comment, Course course) {
         super();
         this.id = id;
         this.username = username;
@@ -23,11 +28,11 @@ public class Comment {
         this.course = course;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

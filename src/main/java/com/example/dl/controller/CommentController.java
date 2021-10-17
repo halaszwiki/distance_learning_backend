@@ -3,6 +3,7 @@ package com.example.dl.controller;
 
 import com.example.dl.model.Comment;
 import com.example.dl.model.Course;
+import com.example.dl.payload.CommentPayload;
 import com.example.dl.service.CommentService;
 import com.example.dl.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,13 +25,18 @@ public class CommentController {
     CourseService courseService;
 
     @PostMapping("/addComment")
-    public ResponseEntity<?> addCourseToUser(@RequestBody Comment comment){
-        Course course = courseService.findById(comment.getCourse().getId());
+    public ResponseEntity<?> addComment(@RequestBody CommentPayload commentPayload){
+
+        Course course = courseService.findById(commentPayload.getCourseId());
+
+        Comment comment = new Comment();
+        comment.setUsername(commentPayload.getUsername());
+        comment.setComment(commentPayload.getComment());
+        comment.setCourse(course);
 
         course.getComments().add(comment);
 
         commentService.save(comment);
-        courseService.save(course);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
