@@ -25,10 +25,10 @@ public class Course {
 	String[] days;
 	int start;
 	int end;
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "courses")
+	@ManyToMany(mappedBy = "courses")
 	@JsonIgnoreProperties("courses")
 	List<User> users = new ArrayList<>();
-	@OneToMany(mappedBy = "course", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
 	List<Comment> comments = new ArrayList<>();
 
 	public int getStart(){
