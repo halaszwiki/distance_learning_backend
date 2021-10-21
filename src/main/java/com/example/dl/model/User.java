@@ -39,6 +39,10 @@ public class User {
 	@JoinTable(name = "taken_courses", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "course_id"))
 	@JsonIgnoreProperties("users")
 	private List<Course> courses = new ArrayList<>();
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "taken_exams", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "exam_id"))
+	@JsonIgnoreProperties("users")
+	private List<Exam> exams = new ArrayList<>();
 
 	public User(User user) {
 		this.user_id = user.user_id;
@@ -47,6 +51,7 @@ public class User {
 		this.password = user.password;
 		this.roles = user.roles;
 		this.courses = user.courses;
+		this.exams = user.exams;
 	}
 
 	public User(String username, String email, String password) {
@@ -102,5 +107,13 @@ public class User {
 
 	public List<Course> getCourses(){
 		return this.courses;
+	}
+
+	public void addExam(Exam exam){
+		exams.add(exam);
+	}
+
+	public List<Exam> getExams(){
+		return this.exams;
 	}
 }

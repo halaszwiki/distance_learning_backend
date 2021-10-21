@@ -1,8 +1,6 @@
 package com.example.dl.payload;
 
-import com.example.dl.model.Course;
-
-public class CommentPayload {
+public class CommentRequest {
     private Long courseId;
     private String username;
     private String comment;

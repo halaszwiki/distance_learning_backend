@@ -79,8 +79,6 @@ public class CourseController {
 
 	@PostMapping("/addCourseToUser")
 	public ResponseEntity<?> addCourseToUser(@RequestBody CourseToUserRequest courseToUserRequest){
-
-
 		User user = userService.findById(courseToUserRequest.getUserId());
 		Course course = courseToUserRequest.getCourse();
 		user.getCourses().add(course);
