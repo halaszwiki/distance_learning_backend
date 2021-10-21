@@ -24,7 +24,7 @@ public class Exam {
     String[] days;
     int start;
     int end;
-    Long createrId;
+    Long creatorId;
     Long courseId;
     @ManyToMany(mappedBy = "exams")
     @JsonIgnoreProperties("exams")
@@ -94,12 +94,12 @@ public class Exam {
         this.end = end;
     }
 
-    public Long getCreaterId() {
-        return createrId;
+    public Long getCreatorId() {
+        return creatorId;
     }
 
-    public void setCreaterId(Long createrId) {
-        this.createrId = createrId;
+    public void setCreatorId(Long creatorId) {
+        this.creatorId = creatorId;
     }
 
     public Long getCourseId() {

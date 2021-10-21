@@ -1,11 +1,8 @@
 package com.example.dl.controller;
 
-import com.example.dl.model.Course;
 import com.example.dl.model.Exam;
 import com.example.dl.model.User;
-import com.example.dl.payload.CourseToUserRequest;
 import com.example.dl.payload.ExamRequest;
-import com.example.dl.service.CourseService;
 import com.example.dl.service.ExamService;
 import com.example.dl.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +36,7 @@ public class ExamController {
 
         user.getExams().add(exam);
         exam.setCourseId(examRequest.getCourseId());
-        exam.setCreaterId(examRequest.getUserId());
+        exam.setCreatorId(examRequest.getUserId());
 
         userService.save(user);
         examService.save(exam);
