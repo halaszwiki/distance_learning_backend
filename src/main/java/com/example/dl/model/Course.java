@@ -25,6 +25,7 @@ public class Course {
 	String[] days;
 	int start;
 	int end;
+	Long creatorId;
 	@ManyToMany(mappedBy = "courses")
 	@JsonIgnoreProperties(value = "courses", allowSetters = true)
 	List<User> users = new ArrayList<>();
@@ -109,6 +110,14 @@ public class Course {
 
 	public void setComments(List<Comment> comments) {
 		this.comments = comments;
+	}
+
+	public Long getCreatorId() {
+		return creatorId;
+	}
+
+	public void setCreatorId(Long creatorId) {
+		this.creatorId = creatorId;
 	}
 }
 

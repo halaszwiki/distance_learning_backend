@@ -1,10 +1,13 @@
 package com.example.dl.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import ch.qos.logback.core.net.SyslogOutputStream;
+import com.example.dl.model.Course;
 import com.example.dl.repository.UserRepository;
+import com.example.dl.service.CourseService;
 import com.example.dl.service.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,6 +26,8 @@ public class UserController {
 
 	@Autowired
 	UserService userService;
+	@Autowired
+	CourseService courseService;
 
 
 	@GetMapping("/welcome")

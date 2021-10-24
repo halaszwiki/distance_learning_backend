@@ -1,5 +1,6 @@
 package com.example.dl.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.example.dl.model.Comment;
@@ -86,10 +87,15 @@ public class CourseController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	@GetMapping("/users/{id}")
-	public ResponseEntity<List<User>> GetUsersOnCourse(@PathVariable("id") Long id){
-		Course course = courseService.findById(id);
-		List<User> users = course.getUsers();
-		return new ResponseEntity<List<User>>(users, HttpStatus.OK);
+	@GetMapping("/myCourses/{id}")
+	public ResponseEntity<List<Course>> getCreatedCourses(@PathVariable("id") Long id) {
+		List<Course> courses = courseService.findAll();
+		List<Course> myCourses = new ArrayList<>();
+		for(Course c: courses){
+			if(c.getCreatorId().equals(id)){
+				myCourses.add(c);
+			}
+		}
+		return new ResponseEntity<List<Course>>(myCourses, HttpStatus.OK);
 	}
 }
