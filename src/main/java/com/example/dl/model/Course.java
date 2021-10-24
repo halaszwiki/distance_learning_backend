@@ -26,7 +26,7 @@ public class Course {
 	int start;
 	int end;
 	@ManyToMany(mappedBy = "courses")
-	@JsonIgnoreProperties("courses")
+	@JsonIgnoreProperties(value = "courses", allowSetters = true)
 	List<User> users = new ArrayList<>();
 	@OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
 	List<Comment> comments = new ArrayList<>();

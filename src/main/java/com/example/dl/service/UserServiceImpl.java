@@ -1,9 +1,6 @@
 package com.example.dl.service;
 
 import java.util.List;
-import java.util.Optional;
-
-import com.example.dl.model.Course;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,5 +37,4 @@ public class UserServiceImpl implements UserService{
 		User user = findById(id);
 		userRepository.delete(user);
 	}
-
 }

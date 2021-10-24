@@ -27,7 +27,7 @@ public class Exam {
     Long creatorId;
     Long courseId;
     @ManyToMany(mappedBy = "exams")
-    @JsonIgnoreProperties("exams")
+    @JsonIgnoreProperties(value = "exams", allowSetters = true)
     List<User> users = new ArrayList<>();
 
     public Long getId() {

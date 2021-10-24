@@ -2,9 +2,10 @@ package com.example.dl.controller;
 
 import java.util.List;
 
+import com.example.dl.model.Comment;
 import com.example.dl.model.MyUserDetails;
 import com.example.dl.model.User;
-import com.example.dl.payload.CourseToUserRequest;
+import com.example.dl.payload.CourseRequest;
 import com.example.dl.payload.MessageResponse;
 import com.example.dl.service.MyUserDetailsService;
 import com.example.dl.service.UserService;
@@ -13,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,8 +25,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.dl.model.Course;
 import com.example.dl.service.CourseService;
-
-import javax.transaction.Transactional;
 
 @CrossOrigin("*")
 @RestController
@@ -78,13 +76,20 @@ public class CourseController {
 	}
 
 	@PostMapping("/addCourseToUser")
-	public ResponseEntity<?> addCourseToUser(@RequestBody CourseToUserRequest courseToUserRequest){
-		User user = userService.findById(courseToUserRequest.getUserId());
-		Course course = courseToUserRequest.getCourse();
+	public ResponseEntity<?> addCourseToUser(@RequestBody CourseRequest courseRequest){
+		User user = userService.findById(courseRequest.getUserId());
+		Course course = courseRequest.getCourse();
 		user.getCourses().add(course);
 
 		userService.save(user);
 
 		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+	@GetMapping("/users/{id}")
+	public ResponseEntity<List<User>> GetUsersOnCourse(@PathVariable("id") Long id){
+		Course course = courseService.findById(id);
+		List<User> users = course.getUsers();
+		return new ResponseEntity<List<User>>(users, HttpStatus.OK);
 	}
 }

@@ -41,7 +41,7 @@ public class User {
 	private List<Course> courses = new ArrayList<>();
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "taken_exams", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "exam_id"))
-	@JsonIgnoreProperties("users")
+	@JsonIgnoreProperties(value = "users", allowSetters = true)
 	private List<Exam> exams = new ArrayList<>();
 
 	public User(User user) {

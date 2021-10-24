@@ -30,16 +30,12 @@ public class ExamController {
     }
 
     @PostMapping("/list")
-    public ResponseEntity<?> createExam(@RequestBody ExamRequest examRequest){
-        User user = userService.findById(examRequest.getUserId());
-        Exam exam = examRequest.getExam();
-
+    public ResponseEntity<?> createExam(@RequestBody Exam exam){
+        User user = userService.findById(exam.getCreatorId());
         user.getExams().add(exam);
-        exam.setCourseId(examRequest.getCourseId());
-        exam.setCreatorId(examRequest.getUserId());
 
-        userService.save(user);
         examService.save(exam);
+        
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -52,11 +48,15 @@ public class ExamController {
     @PostMapping("/addExamToUser")
     public ResponseEntity<?> addExamToUser(@RequestBody ExamRequest examRequest){
         User user = userService.findById(examRequest.getUserId());
-        Exam exam = examRequest.getExam();
-        user.getExams().add(exam);
-
+        user.getExams().add(examRequest.getExam());
         userService.save(user);
-
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/users/{id}")
+    public ResponseEntity<List<User>> GetUsersOnExam(@PathVariable("id") Long id){
+        Exam exam = examService.findById(id);
+        List<User> users = exam.getUsers();
+        return new ResponseEntity<List<User>>(users, HttpStatus.OK);
     }
 }
