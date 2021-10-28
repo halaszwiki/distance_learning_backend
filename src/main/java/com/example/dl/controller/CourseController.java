@@ -98,4 +98,11 @@ public class CourseController {
 		}
 		return new ResponseEntity<List<Course>>(myCourses, HttpStatus.OK);
 	}
+
+	@GetMapping("/users/{id}")
+	public ResponseEntity<List<User>> getAllUsersOnCourse(@PathVariable("id") Long id){
+		Course course = courseService.findById(id);
+		List<User> users = course.getUsers();
+		return new ResponseEntity<List<User>>(users, HttpStatus.OK);
+	}
 }
