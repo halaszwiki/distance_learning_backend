@@ -43,6 +43,11 @@ public class User {
 	@JoinTable(name = "taken_exams", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "exam_id"))
 	@JsonIgnoreProperties(value = "users", allowSetters = true)
 	private List<Exam> exams = new ArrayList<>();
+	@OneToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "grades_table", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "grade_id"))
+	@JsonIgnoreProperties(value = "userId", allowSetters = true)
+	private List<Grade> grades = new ArrayList<>();
+
 
 	public User(User user) {
 		this.user_id = user.user_id;
@@ -52,6 +57,7 @@ public class User {
 		this.roles = user.roles;
 		this.courses = user.courses;
 		this.exams = user.exams;
+		this.grades = user.grades;
 	}
 
 	public User(String username, String email, String password) {
@@ -115,5 +121,13 @@ public class User {
 
 	public List<Exam> getExams(){
 		return this.exams;
+	}
+
+	public List<Grade> getGrades() {
+		return grades;
+	}
+
+	public void setGrades(List<Grade> grades) {
+		this.grades = grades;
 	}
 }
