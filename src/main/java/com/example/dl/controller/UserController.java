@@ -1,26 +1,24 @@
 package com.example.dl.controller;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
-import com.example.dl.model.Course;
 import com.example.dl.model.Grade;
-import com.example.dl.payload.ExamRequest;
-import com.example.dl.payload.GradeRequest;
-import com.example.dl.repository.UserRepository;
+import com.example.dl.model.MyUserDetails;
 import com.example.dl.service.CourseService;
-import com.example.dl.service.MyUserDetailsService;
+import com.example.dl.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.dl.model.User;
 import com.example.dl.service.UserService;
-
-import javax.swing.text.html.Option;
 
 @CrossOrigin("*")
 @RestController
@@ -30,8 +28,9 @@ public class UserController {
 	@Autowired
 	UserService userService;
 	@Autowired
-	CourseService courseService;
-
+	private AuthenticationManager authenticationManager;
+	@Autowired
+	private JwtUtil jwtUtil;
 
 	@GetMapping("/welcome")
 	public String welcome() {
@@ -42,6 +41,14 @@ public class UserController {
 	public ResponseEntity<List<User>> getAllUser() {
 		List<User> users = userService.findAll();
 		return new ResponseEntity<List<User>>(users, HttpStatus.OK);
+	}
+
+	@PostMapping("/list")
+	public ResponseEntity<?> save(@RequestBody User user){
+		User saved = userService.save(user);
+		Authentication authentication = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		return new ResponseEntity<User>(saved, HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}")
@@ -70,4 +77,5 @@ public class UserController {
 		List<Grade> grades = user.getGrades();
 		return new ResponseEntity<List<Grade>>(grades, HttpStatus.OK);
 	}
+
 }
