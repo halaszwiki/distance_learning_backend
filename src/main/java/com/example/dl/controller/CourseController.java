@@ -3,9 +3,7 @@ package com.example.dl.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.dl.model.Comment;
-import com.example.dl.model.MyUserDetails;
-import com.example.dl.model.User;
+import com.example.dl.model.*;
 import com.example.dl.payload.CourseRequest;
 import com.example.dl.payload.MessageResponse;
 import com.example.dl.service.MyUserDetailsService;
@@ -24,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.dl.model.Course;
 import com.example.dl.service.CourseService;
 
 @CrossOrigin("*")
@@ -80,10 +77,17 @@ public class CourseController {
 	public ResponseEntity<?> addCourseToUser(@RequestBody CourseRequest courseRequest){
 		User user = userService.findById(courseRequest.getUserId());
 		Course course = courseRequest.getCourse();
-		user.getCourses().add(course);
-
+		boolean foundIt = false;
+		for(Course c: user.getCourses()) {
+			if (c.getId().equals(course.getId())) {
+				foundIt = true;
+				break;
+			}
+		}
+		if(!foundIt){
+			user.getCourses().add(course);
+		}
 		userService.save(user);
-
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
@@ -103,6 +107,13 @@ public class CourseController {
 	public ResponseEntity<List<User>> getAllUsersOnCourse(@PathVariable("id") Long id){
 		Course course = courseService.findById(id);
 		List<User> users = course.getUsers();
-		return new ResponseEntity<List<User>>(users, HttpStatus.OK);
+		List<User> students = new ArrayList<>();
+		for(User u: users){
+			if (u.getRoles().size() == 1) {
+				students.add(u);
+
+			}
+		}
+		return new ResponseEntity<List<User>>(students, HttpStatus.OK);
 	}
 }
