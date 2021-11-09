@@ -1,22 +1,32 @@
 package com.example.dl.payload;
 
 public class GradeRequest {
-    private Long userId;
+    private String username;
+    private Long courseId;
     private int grade;
 
-    public GradeRequest(Long userId, int grade) {
-        this.userId = userId;
+    public GradeRequest(String username, Long courseId, int grade) {
+        this.username = username;
+        this.courseId = courseId;
         this.grade = grade;
     }
 
     GradeRequest(){}
 
-    public Long getUserId() {
-        return userId;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public Long getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(Long courseId) {
+        this.courseId = courseId;
     }
 
     public int getGrade() {
