@@ -5,7 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -21,7 +23,7 @@ public class Exam {
     int semester;
     String degreeLevel;
     String program;
-    String[] days;
+    Date date;
     int start;
     int end;
     Long creatorId;
@@ -70,12 +72,12 @@ public class Exam {
         this.program = program;
     }
 
-    public String[] getDays() {
-        return days;
+    public Date getDate() {
+        return date;
     }
 
-    public void setDays(String[] days) {
-        this.days = days;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public int getStart() {
