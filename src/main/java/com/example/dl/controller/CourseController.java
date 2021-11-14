@@ -103,6 +103,13 @@ public class CourseController {
 		return new ResponseEntity<List<Course>>(myCourses, HttpStatus.OK);
 	}
 
+	@GetMapping("/timetable/{id}")
+	public ResponseEntity<List<Course>> getTimetable(@PathVariable("id") Long id) {
+		User user = userService.findById(id);
+		List<Course> myCourses = user.getCourses();
+		return new ResponseEntity<List<Course>>(myCourses, HttpStatus.OK);
+	}
+
 	@GetMapping("/users/{id}")
 	public ResponseEntity<List<User>> getAllUsersOnCourse(@PathVariable("id") Long id){
 		Course course = courseService.findById(id);
