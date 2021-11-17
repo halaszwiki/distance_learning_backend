@@ -3,6 +3,7 @@ package com.example.dl.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.example.dl.model.Exam;
 import com.example.dl.model.Grade;
 import com.example.dl.model.MyUserDetails;
 import com.example.dl.service.CourseService;
@@ -76,6 +77,13 @@ public class UserController {
 		User user = userService.findById(id);
 		List<Grade> grades = user.getGrades();
 		return new ResponseEntity<List<Grade>>(grades, HttpStatus.OK);
+	}
+
+	@GetMapping("/{id}/exams")
+	public ResponseEntity<List<Exam>> getExamsFromUser(@PathVariable("id") Long id) {
+		User user = userService.findById(id);
+		List<Exam> exams = user.getExams();
+		return new ResponseEntity<List<Exam>>(exams, HttpStatus.OK);
 	}
 
 }

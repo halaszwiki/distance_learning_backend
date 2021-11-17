@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @CrossOrigin("*")
@@ -130,15 +131,11 @@ public class ExamController {
     public ResponseEntity<?> removeUserFromExam(@RequestBody ExamRequest examRequest){
         User user = userService.findById(examRequest.getUserId());
         Exam exam = examService.findById(examRequest.getExam().getId());
-        if(!user.getExams().isEmpty()) {
-            for (Exam e : user.getExams()) {
-                if (e.getId().equals(exam.getId())) {
-                    user.getExams().remove(exam);
-                    userService.save(user);
-                }
-            }
-        }
+        user.getExams().remove(exam);
+        userService.save(user);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+
 
 }

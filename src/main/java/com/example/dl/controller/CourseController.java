@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.example.dl.model.*;
 import com.example.dl.payload.CourseRequest;
+import com.example.dl.payload.ExamRequest;
 import com.example.dl.payload.MessageResponse;
 import com.example.dl.service.MyUserDetailsService;
 import com.example.dl.service.UserService;
@@ -122,5 +123,14 @@ public class CourseController {
 			}
 		}
 		return new ResponseEntity<List<User>>(students, HttpStatus.OK);
+	}
+
+	@PostMapping("/removeFromCourse")
+	public ResponseEntity<?> removeUserFromCourse(@RequestBody CourseRequest courseRequest){
+		User user = userService.findById(courseRequest.getUserId());
+		Course course = courseService.findById(courseRequest.getCourse().getId());
+		user.getCourses().remove(course);
+		userService.save(user);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }
